@@ -8,9 +8,8 @@ let db = {
   };
 
   mongoose.connect( process.env.PORT ? db.mlab : db.localhost);
-  
+
 // mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/TodoApp');
 
 module.exports = {mongoose};
 
-// 
