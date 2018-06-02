@@ -58,6 +58,31 @@ UserSchema.methods.generateAuthToken = function () {
 //Arrow function do not bind this keyword and we need to use this, that is
 // why we are using a regular function above.
 
+UserSchema.statics.findByToken = function (token) {
+    var User = this;
+    var decoded;
+    
+    try {
+        decoded = jwt.verify(token, 'abc123');
+    }
+    catch(e)  {
+        // return new Promise ((resolve, reject) => {
+        //     reject();
+        // });
+
+        return Promise.reject();
+    }
+
+    return User.findOne({
+        '_id':  decoded._id,
+        'tokens.token': token,
+        'tokens.access': 'auth'
+    });
+};
+
+//above static is model method
+
+
 var User = mongoose.model('User', UserSchema );
 
 module.exports = {User}; 
