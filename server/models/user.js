@@ -56,6 +56,16 @@ UserSchema.methods.generateAuthToken = function () {
     });
 };
 
+UserSchema.methods.removeToken = function (token) {
+var user = this;
+
+return user.update ({
+    $pull: {
+        tokens: {token }
+    }
+});
+}
+
 //Arrow function do not bind this keyword and we need to use this, that is
 // why we are using a regular function above.
 
@@ -117,6 +127,8 @@ UserSchema.statics.findByCredentials = function (email, password) {
       });
     });
   };
+
+  
 
 
 var User = mongoose.model('User', UserSchema );
